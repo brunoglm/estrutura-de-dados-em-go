@@ -8,7 +8,7 @@ import (
 func main() {
 	s := stack.NewStack[int]()
 	fmt.Println(s.Itens)
-	s.Add(10, 20, 50)
+	s.Push(10, 20, 50)
 	fmt.Println(s.Itens)
 	s.Pop()
 	fmt.Println(s.Itens)
@@ -17,7 +17,7 @@ func main() {
 
 	s2 := stack.NewStack[string]()
 	fmt.Println(s2.Itens)
-	s2.Add("s1", "s2", "s3")
+	s2.Push("s1", "s2", "s3")
 	fmt.Println(s2.Itens)
 	s2.Pop()
 	fmt.Println(s2.Itens)

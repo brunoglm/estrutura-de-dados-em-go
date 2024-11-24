@@ -8,7 +8,7 @@ func NewStack[T any]() *Stack[T] {
 	return &Stack[T]{Itens: make([]T, 0)}
 }
 
-func (s *Stack[T]) Add(items ...T) {
+func (s *Stack[T]) Push(items ...T) {
 	s.Itens = append(s.Itens, items...)
 }
 
