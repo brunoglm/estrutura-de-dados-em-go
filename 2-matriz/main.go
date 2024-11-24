@@ -17,16 +17,16 @@ func main() {
 
 	// percorrendo matriz com range
 	for i, linha := range matrix {
-		for j, elemento := range linha {
-			fmt.Println("Indice linha: ", i, " Indice elemento: ", j, " Item elemento: ", elemento)
+		for j, coluna := range linha {
+			fmt.Println("Indice linha: ", i, " Indice coluna: ", j, " Item coluna: ", coluna)
 		}
 	}
 
 	// deletando um item da matriz
 	// para alterar, podemos usar a mesma estrategia
 	rowToModify := 1
-	elementToRemove := 1
-	matrix[rowToModify] = append(matrix[rowToModify][:elementToRemove], matrix[rowToModify][elementToRemove+1:]...)
+	collumToRemove := 1
+	matrix[rowToModify] = append(matrix[rowToModify][:collumToRemove], matrix[rowToModify][collumToRemove+1:]...)
 
 	// percorrendo matriz com for tradicional
 	for i := 0; i < len(matrix); i++ {
