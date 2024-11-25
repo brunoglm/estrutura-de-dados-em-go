@@ -6,21 +6,17 @@ import (
 )
 
 func main() {
-	s := queue.NewQueue[int]()
-	fmt.Println(s.ToString())
-	s.Enqueue(10, 20, 30, 40)
-	fmt.Println(s.ToString())
-	s.Dequeue()
-	fmt.Println(s.ToString())
-	s.Dequeue()
-	fmt.Println(s.ToString())
-	s.Enqueue(100, 200)
-	fmt.Println(s.ToString())
-	fmt.Println(s.IsEmpty())
-	fmt.Println(s.Size())
-	fmt.Println(s.Peek())
-	s.Clear()
-	fmt.Println(s.IsEmpty())
-	fmt.Println(s.Size())
-	fmt.Println(s.ToString())
+	qe := queue.NewQueue[string]()
+
+	fmt.Println(qe.IsEmpty()) // Exibe true
+	qe.Enqueue("John", "Jack")
+	fmt.Println(qe.ToString()) // John Jack
+	qe.Enqueue("Camila")
+	fmt.Println(qe.ToString()) // John Jack Camila
+	fmt.Println(qe.Size())     // Exibe 3
+	fmt.Println(qe.IsEmpty())  // Exibe false
+	qe.Dequeue()               // Remove John
+	qe.Dequeue()               // Remove Jack
+	fmt.Println(qe.ToString()) // Camila
+
 }

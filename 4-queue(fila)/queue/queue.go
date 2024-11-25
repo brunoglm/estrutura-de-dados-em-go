@@ -44,7 +44,7 @@ func (s *Queue[T]) Peek() T {
 }
 
 func (s *Queue[T]) IsEmpty() bool {
-	return len(s.itens) == 0
+	return s.Size() == 0
 }
 
 func (s *Queue[T]) Clear() {
@@ -62,5 +62,5 @@ func (s *Queue[T]) ToString() string {
 }
 
 func (s *Queue[T]) Size() int {
-	return len(s.itens)
+	return s.count - s.lowestCount
 }
