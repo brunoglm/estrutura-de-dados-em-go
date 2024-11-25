@@ -1,31 +1,64 @@
 package stack
 
+import (
+	"fmt"
+)
+
 type Stack[T any] struct {
-	Itens []T
+	itens []T
 }
 
 func NewStack[T any]() *Stack[T] {
-	return &Stack[T]{Itens: make([]T, 0)}
+	return &Stack[T]{itens: make([]T, 0)}
 }
 
 func (s *Stack[T]) Push(items ...T) {
-	s.Itens = append(s.Itens, items...)
+	s.itens = append(s.itens, items...)
 }
 
 func (s *Stack[T]) Pop() T {
-	if len(s.Itens) == 0 {
+	if s.IsEmpty() {
 		var zero T
 		return zero
 	}
 
-	lastIndex := len(s.Itens) - 1
-	item := s.Itens[lastIndex]
+	lastIndex, item := s.getLastItem()
 
-	s.Itens = s.Itens[:lastIndex]
+	s.itens = s.itens[:lastIndex]
+
+	return item
+}
+
+func (s *Stack[T]) Peek() T {
+	if s.IsEmpty() {
+		var zero T
+		return zero
+	}
+
+	_, item := s.getLastItem()
 
 	return item
 }
 
 func (s *Stack[T]) IsEmpty() bool {
-	return len(s.Itens) == 0
+	return len(s.itens) == 0
+}
+
+func (s *Stack[T]) Clear() {
+	s.itens = make([]T, 0)
+}
+
+func (s *Stack[T]) Size() int {
+	return len(s.itens)
+}
+
+func (s *Stack[T]) ToString() string {
+	return fmt.Sprintf("%v", s.itens)
+}
+
+func (s *Stack[T]) getLastItem() (int, T) {
+	lastIndex := len(s.itens) - 1
+	item := s.itens[lastIndex]
+
+	return lastIndex, item
 }
