@@ -25,6 +25,30 @@ func decimalToBinary(num int) {
 	fmt.Println(binaryString)
 }
 
+func baseConverter(num int, base int) {
+	remStack := stack.NewStack[int]()
+	digits := "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	number := num
+	rem := 0
+	binaryString := ""
+
+	if !(base >= 2 && base <= 36) {
+		return
+	}
+
+	for number > 0 {
+		rem = number % base
+		remStack.Push(rem)
+		number = number / base
+	}
+
+	for !remStack.IsEmpty() {
+		binaryString += string(digits[remStack.Pop()])
+	}
+
+	fmt.Println(binaryString)
+}
+
 func main() {
 	s := stack.NewStack[int]()
 	fmt.Println(s.ToString())
@@ -53,4 +77,12 @@ func main() {
 	fmt.Println(s2.ToString())
 
 	decimalToBinary(10)
+
+	fmt.Println()
+
+	baseConverter(10, 2)
+	baseConverter(100345, 2)
+	baseConverter(100345, 8)
+	baseConverter(100345, 16)
+	baseConverter(100345, 35)
 }
