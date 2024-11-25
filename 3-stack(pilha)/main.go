@@ -3,7 +3,27 @@ package main
 import (
 	"fmt"
 	"stack-lab/stack"
+	"strconv"
 )
+
+func decimalToBinary(num int) {
+	remStack := stack.NewStack[int]()
+	number := num
+	rem := 0
+	binaryString := ""
+
+	for number > 0 {
+		rem = number % 2
+		remStack.Push(rem)
+		number = number / 2
+	}
+
+	for !remStack.IsEmpty() {
+		binaryString += strconv.Itoa(remStack.Pop())
+	}
+
+	fmt.Println(binaryString)
+}
 
 func main() {
 	s := stack.NewStack[int]()
@@ -31,4 +51,6 @@ func main() {
 	fmt.Println(s2.Size())
 	s2.Clear()
 	fmt.Println(s2.ToString())
+
+	decimalToBinary(10)
 }
