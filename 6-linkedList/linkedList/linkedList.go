@@ -61,7 +61,7 @@ func (l *LinkedList[T]) Remove(element T) T {
 }
 
 func (l *LinkedList[T]) RemovedAt(index int) T {
-	if index <= 0 || index >= l.count {
+	if index < 0 || index > l.count {
 		var zero T
 		return zero
 	}
@@ -81,7 +81,7 @@ func (l *LinkedList[T]) RemovedAt(index int) T {
 }
 
 func (l *LinkedList[T]) Insert(element T, index int) bool {
-	if index <= 0 || index >= l.count {
+	if index < 0 || index > l.count {
 		return false
 	}
 
@@ -97,12 +97,11 @@ func (l *LinkedList[T]) Insert(element T, index int) bool {
 	}
 
 	l.count++
-
 	return true
 }
 
 func (l *LinkedList[T]) getElementAt(index int) *Node[T] {
-	if index <= 0 || index >= l.count {
+	if index < 0 || index > l.count {
 		return nil
 	}
 
@@ -134,7 +133,7 @@ func (l *LinkedList[T]) ToString() string {
 	objString := fmt.Sprintf("%v", l.head.data)
 	current := l.head.next
 	for i := 1; i < l.Size() && current != nil; i++ {
-		objString += fmt.Sprintf(",%v", l.head.data)
+		objString += fmt.Sprintf(",%v", current.data)
 		current = current.next
 	}
 	return objString
