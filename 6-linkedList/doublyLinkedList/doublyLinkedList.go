@@ -30,6 +30,68 @@ func NewDoublyLinkedList[T any](equalsFn func(a, b T) bool) *DoublyLinkedList[T]
 	}
 }
 
+func (l *DoublyLinkedList[T]) IndexOf(element T) int {
+	current := l.head
+	for i := 0; i < l.count && current != nil; i++ {
+		if l.equalsFn(element, current.data) {
+			return i
+		}
+		current = current.next
+	}
+	return -1
+}
+
+func (l *DoublyLinkedList[T]) Remove(element T) T {
+	i := l.IndexOf(element)
+	return l.RemovedAt(i)
+}
+
+func (l *DoublyLinkedList[T]) RemovedAt(index int) T {
+	if index < 0 || index > l.count {
+		var zero T
+		return zero
+	}
+
+	current := l.head
+
+	if index == 0 {
+		l.head = current.next
+		if l.Size() == 1 {
+			l.tail = nil
+		} else {
+			l.head.prev = nil
+		}
+	} else if index == l.count-1 {
+		current = l.tail
+		l.tail = current.prev
+		l.tail.next = nil
+	} else {
+		current = l.getElementAt(index)
+		previous := current.prev
+		nextNode := current.next
+		previous.next = nextNode
+		nextNode.prev = previous
+	}
+
+	l.count--
+	return current.data
+}
+
+func (l *DoublyLinkedList[T]) Push(element T) {
+	node := newNode(element)
+
+	if l.head == nil {
+		l.head = node
+		l.tail = node
+	} else {
+		l.tail.next = node
+		node.prev = l.tail
+		l.tail = node
+	}
+
+	l.count++
+}
+
 func (l *DoublyLinkedList[T]) Insert(element T, index int) bool {
 	if index < 0 || index > l.count {
 		return false
