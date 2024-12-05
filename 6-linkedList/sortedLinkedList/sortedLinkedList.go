@@ -1,4 +1,4 @@
-package linkedlist
+package sortedlinkedlist
 
 import (
 	"fmt"
