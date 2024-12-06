@@ -77,9 +77,18 @@ func (s *Set[T]) Union(otherSet *Set[T]) *Set[T] {
 
 func (s *Set[T]) Intersection(otherSet *Set[T]) *Set[T] {
 	intersectionSet := NewSet[T]()
+	var biggerSet, smallerSet *Set[T]
 
-	for _, value := range s.items {
-		if otherSet.Has(value) {
+	if s.count > otherSet.count {
+		biggerSet = s
+		smallerSet = otherSet
+	} else {
+		biggerSet = otherSet
+		smallerSet = s
+	}
+
+	for _, value := range smallerSet.items {
+		if biggerSet.Has(value) {
 			intersectionSet.Add(value)
 		}
 	}
