@@ -107,3 +107,17 @@ func (s *Set[T]) Diference(otherSet *Set[T]) *Set[T] {
 
 	return diferenceSet
 }
+
+func (s *Set[T]) IsSubsetOf(otherSet *Set[T]) bool {
+	if s.count > otherSet.count {
+		return false
+	}
+
+	for _, value := range s.items {
+		if !otherSet.Has(value) {
+			return false
+		}
+	}
+
+	return true
+}
