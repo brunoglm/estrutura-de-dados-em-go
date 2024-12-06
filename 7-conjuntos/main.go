@@ -18,6 +18,17 @@ func main() {
 	// union := sa.Union(sb)
 	// fmt.Println(union.Values())
 
+	// sa := set.NewSet[int]()
+	// sa.Add(1)
+	// sa.Add(2)
+	// sa.Add(3)
+	// sb := set.NewSet[int]()
+	// sb.Add(2)
+	// sb.Add(3)
+	// sb.Add(4)
+	// intersectionAB := sa.Intersection(sb)
+	// fmt.Println(intersectionAB.Values())
+
 	sa := set.NewSet[int]()
 	sa.Add(1)
 	sa.Add(2)
@@ -26,6 +37,8 @@ func main() {
 	sb.Add(2)
 	sb.Add(3)
 	sb.Add(4)
-	intersectionAB := sa.Intersection(sb)
-	fmt.Println(intersectionAB.Values())
+	diferenceAB := sa.Diference(sb)
+	diferenceBA := sb.Diference(sa)
+	fmt.Println(diferenceAB.Values())
+	fmt.Println(diferenceBA.Values())
 }

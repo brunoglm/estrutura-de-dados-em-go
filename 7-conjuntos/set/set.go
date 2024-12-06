@@ -95,3 +95,15 @@ func (s *Set[T]) Intersection(otherSet *Set[T]) *Set[T] {
 
 	return intersectionSet
 }
+
+func (s *Set[T]) Diference(otherSet *Set[T]) *Set[T] {
+	diferenceSet := NewSet[T]()
+
+	for _, value := range s.items {
+		if !otherSet.Has(value) {
+			diferenceSet.Add(value)
+		}
+	}
+
+	return diferenceSet
+}
