@@ -49,17 +49,46 @@ func (t *LinearProbingHashtable[T]) Put(key string, value T) bool {
 	return true
 }
 
-// func (t *LinearProbingHashtable[T]) Remove(key string) bool {
-// 	hash := t.HashCode(key)
+func (t *LinearProbingHashtable[T]) verifyRemoveSideEffect(key string, removedHash int) {
+	hash := t.HashCode(key)
+	index := removedHash + 1
+	for t.has(index) {
+		posHash := t.HashCode(t.table[index].Key)
+		if posHash <= hash || posHash <= removedHash {
+			t.table[removedHash] = t.table[index]
+			delete(t.table, index)
+			removedHash = index
+		}
+		index++
+	}
+}
 
-// 	if !t.has(hash) {
-// 		return false
-// 	}
+func (t *LinearProbingHashtable[T]) Remove(key string) bool {
+	hash := t.HashCode(key)
 
-// 	delete(t.table, hash)
+	if !t.has(hash) {
+		return false
+	}
 
-// 	return true
-// }
+	if t.table[hash].Key == key {
+		delete(t.table, hash)
+		t.verifyRemoveSideEffect(key, hash)
+		return true
+	}
+
+	index := hash + 1
+	for t.has(index) && t.table[index].Key != key {
+		index++
+	}
+
+	if t.has(index) && t.table[index].Key != key {
+		delete(t.table, index)
+		t.verifyRemoveSideEffect(key, index)
+		return true
+	}
+
+	return true
+}
 
 func (t *LinearProbingHashtable[T]) Get(key string) T {
 	var zero T
