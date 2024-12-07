@@ -15,7 +15,17 @@ func NewHashtable[T any]() *LinearProbingHashtable[T] {
 	}
 }
 
-func (t *LinearProbingHashtable[T]) loseloseHashCode(key string) int {
+func (t *LinearProbingHashtable[T]) Djb2HashCode(key string) int {
+	hash := 5381
+
+	for _, char := range key {
+		hash = (hash * 33) + int(char)
+	}
+
+	return hash % 1013
+}
+
+func (t *LinearProbingHashtable[T]) LoseloseHashCode(key string) int {
 	hash := 0
 
 	for _, char := range key {
@@ -26,7 +36,7 @@ func (t *LinearProbingHashtable[T]) loseloseHashCode(key string) int {
 }
 
 func (t *LinearProbingHashtable[T]) HashCode(key string) int {
-	return t.loseloseHashCode(key)
+	return t.Djb2HashCode(key)
 }
 
 func (t *LinearProbingHashtable[T]) Put(key string, value T) bool {

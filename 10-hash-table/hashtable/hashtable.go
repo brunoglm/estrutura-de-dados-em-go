@@ -10,18 +10,28 @@ func NewHashtable[T any]() *Hashtable[T] {
 	}
 }
 
-func (t *Hashtable[T]) loseloseHashCode(key string) int {
+func (t *Hashtable[T]) Djb2HashCode(key string) int {
+	hash := 5381
+
+	for _, char := range key {
+		hash = (hash * 33) + int(char)
+	}
+
+	return hash % 1013
+}
+
+func (t *Hashtable[T]) LoseloseHashCode(key string) int {
 	hash := 0
 
 	for _, char := range key {
 		hash += int(char)
 	}
 
-	return hash
+	return hash % 37
 }
 
 func (t *Hashtable[T]) HashCode(key string) int {
-	return t.loseloseHashCode(key) % len(t.table)
+	return t.Djb2HashCode(key)
 }
 
 func (t *Hashtable[T]) Put(key string, value T) bool {
