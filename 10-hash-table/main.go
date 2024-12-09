@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"hash/linearProbingHashtable"
+	"labhash/linearProbingHashtable"
 )
 
 func main() {
