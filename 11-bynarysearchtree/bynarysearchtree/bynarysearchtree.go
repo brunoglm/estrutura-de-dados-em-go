@@ -3,59 +3,59 @@ package bynarysearchtree
 import "golang.org/x/exp/constraints"
 
 type Node[T constraints.Ordered] struct {
-	key   T
-	left  *Node[T]
-	right *Node[T]
+	Key   T
+	Left  *Node[T]
+	Right *Node[T]
 }
 
 func NewNode[T constraints.Ordered](key T) *Node[T] {
 	return &Node[T]{
-		key: key,
+		Key: key,
 	}
 }
 
 type Bynarysearchtree[T constraints.Ordered] struct {
-	compareFn func(node1, node2 T) int
-	root      *Node[T]
+	CompareFn func(node1, node2 T) int
+	Root      *Node[T]
 }
 
-func NewBynarysearchtree[T constraints.Ordered](compareFn func(node1, node2 T) int) *Bynarysearchtree[T] {
+func NewTree[T constraints.Ordered](compareFn func(node1, node2 T) int) *Bynarysearchtree[T] {
 	if compareFn == nil {
 		compareFn = defaultCompare[T]
 	}
 
 	return &Bynarysearchtree[T]{
-		compareFn: compareFn,
+		CompareFn: compareFn,
 	}
 }
 
 func (t *Bynarysearchtree[T]) Insert(key T) {
-	if t.root == nil {
-		t.root = NewNode(key)
+	if t.Root == nil {
+		t.Root = NewNode(key)
 		return
 	}
 
-	t.insertNode(t.root, key)
+	t.insertNode(t.Root, key)
 }
 
 func (t *Bynarysearchtree[T]) insertNode(node *Node[T], key T) {
-	if t.compareFn(key, node.key) == -1 {
-		if node.left == nil {
-			node.left = NewNode(key)
+	if t.CompareFn(key, node.Key) == -1 {
+		if node.Left == nil {
+			node.Left = NewNode(key)
 		} else {
-			t.insertNode(node.left, key)
+			t.insertNode(node.Left, key)
 		}
 	} else {
-		if node.right == nil {
-			node.right = NewNode(key)
+		if node.Right == nil {
+			node.Right = NewNode(key)
 		} else {
-			t.insertNode(node.right, key)
+			t.insertNode(node.Right, key)
 		}
 	}
 }
 
 func (t *Bynarysearchtree[T]) InOrderTraverse(callback func(key T)) {
-	t.inOrderTraverseNode(t.root, callback)
+	t.inOrderTraverseNode(t.Root, callback)
 }
 
 func (t *Bynarysearchtree[T]) inOrderTraverseNode(node *Node[T], callback func(key T)) {
@@ -63,13 +63,13 @@ func (t *Bynarysearchtree[T]) inOrderTraverseNode(node *Node[T], callback func(k
 		return
 	}
 
-	t.inOrderTraverseNode(node.left, callback)
-	callback(node.key)
-	t.inOrderTraverseNode(node.right, callback)
+	t.inOrderTraverseNode(node.Left, callback)
+	callback(node.Key)
+	t.inOrderTraverseNode(node.Right, callback)
 }
 
 func (t *Bynarysearchtree[T]) PreOrderTraverse(callback func(key T)) {
-	t.preOrderTraverseNode(t.root, callback)
+	t.preOrderTraverseNode(t.Root, callback)
 }
 
 func (t *Bynarysearchtree[T]) preOrderTraverseNode(node *Node[T], callback func(key T)) {
@@ -77,13 +77,13 @@ func (t *Bynarysearchtree[T]) preOrderTraverseNode(node *Node[T], callback func(
 		return
 	}
 
-	callback(node.key)
-	t.preOrderTraverseNode(node.left, callback)
-	t.preOrderTraverseNode(node.right, callback)
+	callback(node.Key)
+	t.preOrderTraverseNode(node.Left, callback)
+	t.preOrderTraverseNode(node.Right, callback)
 }
 
 func (t *Bynarysearchtree[T]) PostOrderTraverse(callback func(key T)) {
-	t.postOrderTraverseNode(t.root, callback)
+	t.postOrderTraverseNode(t.Root, callback)
 }
 
 func (t *Bynarysearchtree[T]) postOrderTraverseNode(node *Node[T], callback func(key T)) {
@@ -91,37 +91,37 @@ func (t *Bynarysearchtree[T]) postOrderTraverseNode(node *Node[T], callback func
 		return
 	}
 
-	t.postOrderTraverseNode(node.left, callback)
-	t.postOrderTraverseNode(node.right, callback)
-	callback(node.key)
+	t.postOrderTraverseNode(node.Left, callback)
+	t.postOrderTraverseNode(node.Right, callback)
+	callback(node.Key)
 }
 
 func (t *Bynarysearchtree[T]) Min() T {
-	return t.minNode(t.root)
+	return t.minNode(t.Root)
 }
 
 func (t *Bynarysearchtree[T]) minNode(node *Node[T]) T {
 	current := node
-	for current != nil && current.left != nil {
-		current = current.left
+	for current != nil && current.Left != nil {
+		current = current.Left
 	}
-	return current.key
+	return current.Key
 }
 
 func (t *Bynarysearchtree[T]) Max() T {
-	return t.maxNode(t.root)
+	return t.maxNode(t.Root)
 }
 
 func (t *Bynarysearchtree[T]) maxNode(node *Node[T]) T {
 	current := node
-	for current != nil && current.right != nil {
-		current = current.right
+	for current != nil && current.Right != nil {
+		current = current.Right
 	}
-	return current.key
+	return current.Key
 }
 
 func (t *Bynarysearchtree[T]) Search(key T) bool {
-	return t.searchNode(t.root, key)
+	return t.searchNode(t.Root, key)
 }
 
 func (t *Bynarysearchtree[T]) searchNode(node *Node[T], key T) bool {
@@ -129,10 +129,10 @@ func (t *Bynarysearchtree[T]) searchNode(node *Node[T], key T) bool {
 		return false
 	}
 
-	if t.compareFn(key, node.key) == -1 {
-		return t.searchNode(node.left, key)
-	} else if t.compareFn(key, node.key) == 1 {
-		return t.searchNode(node.right, key)
+	if t.CompareFn(key, node.Key) == -1 {
+		return t.searchNode(node.Left, key)
+	} else if t.CompareFn(key, node.Key) == 1 {
+		return t.searchNode(node.Right, key)
 	} else {
 		return true
 	}
