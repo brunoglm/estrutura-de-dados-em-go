@@ -97,27 +97,27 @@ func (t *Bynarysearchtree[T]) postOrderTraverseNode(node *Node[T], callback func
 }
 
 func (t *Bynarysearchtree[T]) Min() T {
-	return t.minNode(t.Root)
+	return t.minNode(t.Root).Key
 }
 
-func (t *Bynarysearchtree[T]) minNode(node *Node[T]) T {
+func (t *Bynarysearchtree[T]) minNode(node *Node[T]) *Node[T] {
 	current := node
 	for current != nil && current.Left != nil {
 		current = current.Left
 	}
-	return current.Key
+	return current
 }
 
 func (t *Bynarysearchtree[T]) Max() T {
-	return t.maxNode(t.Root)
+	return t.maxNode(t.Root).Key
 }
 
-func (t *Bynarysearchtree[T]) maxNode(node *Node[T]) T {
+func (t *Bynarysearchtree[T]) maxNode(node *Node[T]) *Node[T] {
 	current := node
 	for current != nil && current.Right != nil {
 		current = current.Right
 	}
-	return current.Key
+	return current
 }
 
 func (t *Bynarysearchtree[T]) Search(key T) bool {
@@ -135,6 +135,44 @@ func (t *Bynarysearchtree[T]) searchNode(node *Node[T], key T) bool {
 		return t.searchNode(node.Right, key)
 	} else {
 		return true
+	}
+}
+
+func (t *Bynarysearchtree[T]) Remove(key T) {
+	t.Root = t.removeNode(t.Root, key)
+}
+
+func (t *Bynarysearchtree[T]) removeNode(node *Node[T], key T) *Node[T] {
+	if node == nil {
+		return nil
+	}
+
+	if t.CompareFn(key, node.Key) == -1 {
+		node.Left = t.removeNode(node.Left, key)
+		return node
+	} else if t.CompareFn(key, node.Key) == 1 {
+		node.Right = t.removeNode(node.Right, key)
+		return node
+	} else {
+		if node.Left == nil && node.Right == nil {
+			node = nil
+			return node
+		}
+
+		if node.Left == nil {
+			node = node.Right
+			return node
+		}
+
+		if node.Right == nil {
+			node = node.Left
+			return node
+		}
+
+		aux := t.minNode(node.Right)
+		node.Key = aux.Key
+		node.Right = t.removeNode(node.Right, aux.Key)
+		return node
 	}
 }
 
