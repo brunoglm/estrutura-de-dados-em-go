@@ -1,6 +1,7 @@
 package avltree
 
 import (
+	"fmt"
 	bst "labtree/bynarysearchtree"
 	"math"
 
@@ -111,3 +112,16 @@ func (t *AVLTree[T]) rotationRL(node *bst.Node[T]) *bst.Node[T] {
 	node.Right = t.rotationLL(node.Right)
 	return t.rotationRR(node)
 }
+
+func (t *AVLTree[T]) PrintTreeDebug() *bst.Node[T] {
+	fmt.Println("Tree")
+}
+
+// printar a arvore
+// fazer exemplos video atual
+// fazer exemplos video anterior
+// ler de novo arvore AVL
+// entender balance
+// entender fator
+// entender 4 rotations
+// fazer delete AVL
