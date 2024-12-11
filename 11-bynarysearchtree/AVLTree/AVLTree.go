@@ -1,6 +1,7 @@
 package avltree
 
 import (
+	"fmt"
 	bst "labtree/bynarysearchtree"
 	"math"
 
@@ -110,4 +111,33 @@ func (t *AVLTree[T]) rotationLR(node *bst.Node[T]) *bst.Node[T] {
 func (t *AVLTree[T]) rotationRL(node *bst.Node[T]) *bst.Node[T] {
 	node.Right = t.rotationLL(node.Right)
 	return t.rotationRR(node)
+}
+
+func (t *AVLTree[T]) TreeDebug() {
+	t.treeDebug(t.Root)
+}
+
+func (t *AVLTree[T]) treeDebug(node *bst.Node[T]) {
+	if node == nil {
+		return
+	}
+
+	t.treeDebug(node.Left)
+
+	if node.Left != nil {
+		fmt.Println("node.left: ", node.Left.Key)
+	} else {
+		fmt.Println("node.left: ")
+	}
+
+	fmt.Println("node.Key: ", node.Key)
+
+	if node.Right != nil {
+		fmt.Println("node.Right: ", node.Right.Key)
+	} else {
+		fmt.Println("node.Right: ")
+	}
+	fmt.Println()
+
+	t.treeDebug(node.Right)
 }
