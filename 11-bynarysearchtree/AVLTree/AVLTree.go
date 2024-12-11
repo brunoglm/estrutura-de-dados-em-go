@@ -36,6 +36,27 @@ func (t *AVLTree[T]) Remove(key T) {
 	}
 
 	balanceFactor := t.getBalance(t.Root)
+	if balanceFactor == UNBALANCED_LEFT {
+		balanceFactorLeft := t.getBalance(t.Root.Left)
+		if balanceFactorLeft == BALANCED || balanceFactorLeft == SLIGHTLY_UMBALANCED_LEFT {
+			t.rotationLL(t.Root)
+			return
+		}
+		if balanceFactorLeft == SLIGHTLY_UMBALANCED_RIGHT {
+			t.rotationLR(t.Root.Left)
+		}
+	}
+
+	if balanceFactor == UNBALANCED_RIGHT {
+		balanceFactorRight := t.getBalance(t.Root.Right)
+		if balanceFactorRight == BALANCED || balanceFactorRight == SLIGHTLY_UMBALANCED_RIGHT {
+			t.rotationRR(t.Root)
+			return
+		}
+		if balanceFactorRight == SLIGHTLY_UMBALANCED_LEFT {
+			t.rotationRL(t.Root.Right)
+		}
+	}
 }
 
 func (t *AVLTree[T]) Insert(key T) {
