@@ -28,6 +28,16 @@ func NewTree[T constraints.Ordered](compareFn func(node1, node2 T) int) *AVLTree
 	}
 }
 
+func (t *AVLTree[T]) Remove(key T) {
+	t.Root = t.RemoveNode(t.Root, key)
+
+	if t.Root == nil {
+		return
+	}
+
+	balanceFactor := t.getBalance(t.Root)
+}
+
 func (t *AVLTree[T]) Insert(key T) {
 	t.Root = t.insertNode(t.Root, key)
 }
@@ -45,7 +55,7 @@ func (t *AVLTree[T]) insertNode(node *bst.Node[T], key T) *bst.Node[T] {
 
 	balanceFactor := t.getBalance(node)
 	if balanceFactor == UNBALANCED_LEFT {
-		if t.CompareFn(key, node.Key) == -1 {
+		if t.CompareFn(key, node.Left.Key) == -1 {
 			node = t.rotationLL(node)
 		} else {
 			return t.rotationLR(node)
@@ -53,7 +63,7 @@ func (t *AVLTree[T]) insertNode(node *bst.Node[T], key T) *bst.Node[T] {
 	}
 
 	if balanceFactor == UNBALANCED_RIGHT {
-		if t.CompareFn(key, node.Key) == 1 {
+		if t.CompareFn(key, node.Right.Key) == 1 {
 			node = t.rotationRR(node)
 		} else {
 			return t.rotationRL(node)

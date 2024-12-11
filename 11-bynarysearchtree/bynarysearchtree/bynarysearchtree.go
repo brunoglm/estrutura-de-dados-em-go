@@ -139,19 +139,19 @@ func (t *Bynarysearchtree[T]) searchNode(node *Node[T], key T) bool {
 }
 
 func (t *Bynarysearchtree[T]) Remove(key T) {
-	t.Root = t.removeNode(t.Root, key)
+	t.Root = t.RemoveNode(t.Root, key)
 }
 
-func (t *Bynarysearchtree[T]) removeNode(node *Node[T], key T) *Node[T] {
+func (t *Bynarysearchtree[T]) RemoveNode(node *Node[T], key T) *Node[T] {
 	if node == nil {
 		return nil
 	}
 
 	if t.CompareFn(key, node.Key) == -1 {
-		node.Left = t.removeNode(node.Left, key)
+		node.Left = t.RemoveNode(node.Left, key)
 		return node
 	} else if t.CompareFn(key, node.Key) == 1 {
-		node.Right = t.removeNode(node.Right, key)
+		node.Right = t.RemoveNode(node.Right, key)
 		return node
 	} else {
 		if node.Left == nil && node.Right == nil {
@@ -171,7 +171,7 @@ func (t *Bynarysearchtree[T]) removeNode(node *Node[T], key T) *Node[T] {
 
 		aux := t.minNode(node.Right)
 		node.Key = aux.Key
-		node.Right = t.removeNode(node.Right, aux.Key)
+		node.Right = t.RemoveNode(node.Right, aux.Key)
 		return node
 	}
 }
