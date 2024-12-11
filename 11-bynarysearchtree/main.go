@@ -1,8 +1,6 @@
 package main
 
-import (
-	avltree "labtree/AVLTree"
-)
+import avltree "labtree/AVLTree"
 
 func main() {
 	// t := bynarysearchtree.NewTree[int](nil)
