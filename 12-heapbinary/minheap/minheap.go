@@ -37,13 +37,36 @@ func (h *MinHeap[T]) Insert(value T) bool {
 	return true
 }
 
-// func (h *MinHeap[T]) Extract(value T) T {
+func (h *MinHeap[T]) Extract() T {
+	if h.IsEmpty() {
+		var zero T
+		return zero
+	}
 
-// }
+	if h.Size() == 1 {
+		return h.shift()
+	}
 
-// func (h *MinHeap[T]) FindMinimum() T {
+	removedValue := h.shift()
+	h.siftDown(0)
+	return removedValue
+}
 
-// }
+func (h *MinHeap[T]) shift() T {
+	if h.IsEmpty() {
+		var zero T
+		return zero
+	}
+
+	firstValue := h.Heap[0]
+
+	// Limpar a referência para o objeto na posição 0
+	h.Heap[0] = *new(T)
+
+	h.Heap = h.Heap[1:]
+
+	return firstValue
+}
 
 func (h *MinHeap[T]) Size() int {
 	return len(h.Heap)
@@ -66,16 +89,37 @@ func (h *MinHeap[T]) siftUp(index int) {
 	parent := h.GetParentIndex(index)
 
 	for index > 0 && h.defaultCompare(h.Heap[parent], h.Heap[index]) == 1 {
-		h.swap(h.Heap, parent, index)
+		h.swap(parent, index)
 		index = parent
 		parent = h.GetParentIndex(index)
 	}
 }
 
-func (h *MinHeap[T]) swap(heap []T, parentIndex, childIndex int) {
-	parent := heap[parentIndex]
-	heap[parentIndex] = heap[childIndex]
-	heap[childIndex] = parent
+func (h *MinHeap[T]) siftDown(index int) {
+	element := index
+	left := h.GetLeftIndex(index)
+	right := h.GetRightIndex(index)
+	size := h.Size()
+
+	if left < size &&
+		h.defaultCompare(h.Heap[element], h.Heap[left]) == 1 {
+		element = left
+	}
+
+	if right < size &&
+		h.defaultCompare(h.Heap[element], h.Heap[right]) == 1 {
+		element = right
+	}
+	if index != element {
+		h.swap(index, element)
+		h.siftDown(element)
+	}
+}
+
+func (h *MinHeap[T]) swap(a, b int) {
+	parent := h.Heap[a]
+	h.Heap[a] = h.Heap[b]
+	h.Heap[b] = parent
 }
 
 func (h *MinHeap[T]) defaultCompare(item1, item2 T) int {
