@@ -17,7 +17,7 @@ func main() {
 	// fmt.Println("Heap is empty: ", h.IsEmpty())
 	// fmt.Println("Heap min value: ", h.FindMinimum())
 
-	array := []int{7, 6, 3, 5, 4, 1, 2}
+	array := []int{7, 8, 9, 6, 3, 5, 4, 1, 2, 10}
 	fmt.Println("Before sorting: ", array)
 	arraySorted := heapsort.Sort(array)
 	fmt.Println("After sorting: ", arraySorted)
