@@ -77,13 +77,13 @@ func BfsfindingShortestRoute[T comparable](g *graph.Graph[T], startVertex T, pri
 	}
 
 	if printPath {
-		bfsPrintPath(distances, predecessors, vertices)
+		bfsPrintPath(predecessors, vertices)
 	}
 
 	return distances, predecessors
 }
 
-func bfsPrintPath[T comparable](distances map[T]int, predecessors map[T]T, vertices []T) {
+func bfsPrintPath[T comparable](predecessors map[T]T, vertices []T) {
 	fromVertex := vertices[0]
 	for i := 1; i < len(vertices); i++ {
 		toVertex := vertices[i]
