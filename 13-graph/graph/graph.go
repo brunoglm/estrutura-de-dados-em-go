@@ -53,11 +53,11 @@ func (g *Graph[T]) AddEdge(v, w T) {
 	}
 }
 
-func (g *Graph[T]) GetVertices(v, w T) []T {
+func (g *Graph[T]) GetVertices() []T {
 	return g.Vertices
 }
 
-func (g *Graph[T]) GetAdjList(v, w T) map[T][]T {
+func (g *Graph[T]) GetAdjList() map[T][]T {
 	return g.AdjList
 }
 

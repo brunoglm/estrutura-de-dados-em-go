@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"labgraph/breadthfirstsearch"
 	"labgraph/graph"
 )
 
@@ -25,5 +26,6 @@ func main() {
 	g.AddEdge("B", "F")
 	g.AddEdge("E", "I")
 
-	fmt.Println(g.ToString())
+	// fmt.Println(g.ToString())
+	breadthfirstsearch.BreadthFirstSearch(g, "A", func(v string) { fmt.Println("Visited vertex: ", v) })
 }
