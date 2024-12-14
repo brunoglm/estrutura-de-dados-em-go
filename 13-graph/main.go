@@ -27,5 +27,8 @@ func main() {
 	g.AddEdge("E", "I")
 
 	// fmt.Println(g.ToString())
-	breadthfirstsearch.BreadthFirstSearch(g, "A", func(v string) { fmt.Println("Visited vertex: ", v) })
+	// breadthfirstsearch.BreadthFirstSearch(g, "A", func(v string) { fmt.Println("Visited vertex: ", v) })
+	distances, predecessors := breadthfirstsearch.BfsfindingShortestRoute(g, "A", true)
+	fmt.Println("distances: ", distances)
+	fmt.Println("predecessors: ", predecessors)
 }
