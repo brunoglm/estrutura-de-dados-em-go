@@ -32,5 +32,8 @@ func main() {
 	// fmt.Println("distances: ", distances)
 	// fmt.Println("predecessors: ", predecessors)
 
-	depthfirstsearch.Depthfirstsearch[string](g, "A", func(v string) { fmt.Println("Visited vertex: ", v) })
+	discovery, finished, predecessors := depthfirstsearch.DfsInstantDiscoveryExploration(g)
+	fmt.Println("discovery: ", discovery)
+	fmt.Println("finished: ", finished)
+	fmt.Println("predecessors: ", predecessors)
 }
