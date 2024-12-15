@@ -1,6 +1,9 @@
 package depthfirstsearch
 
-import "labgraph/graph"
+import (
+	"fmt"
+	"labgraph/graph"
+)
 
 type color int
 
@@ -90,4 +93,26 @@ func dfsInstantDiscoveryExplorationVisit[T comparable](u T, color map[T]color, d
 	color[u] = BLACK
 	time["count"]++
 	finished[u] = time["count"]
+}
+
+func DfsTopoSort[T comparable](vertices []T, finished map[T]int) string {
+	fTimes := finished
+	s := ""
+
+	for range vertices {
+		max := 0
+		maxName := *new(T)
+
+		for _, v := range vertices {
+			if fTimes[v] > max {
+				max = fTimes[v]
+				maxName = v
+			}
+		}
+
+		s += fmt.Sprintf("%v ", maxName)
+		delete(fTimes, maxName)
+	}
+
+	return s
 }
