@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"labgraph/breadthfirstsearch"
+	"labgraph/depthfirstsearch"
 	"labgraph/graph"
 )
 
@@ -28,7 +28,9 @@ func main() {
 
 	// fmt.Println(g.ToString())
 	// breadthfirstsearch.BreadthFirstSearch(g, "A", func(v string) { fmt.Println("Visited vertex: ", v) })
-	distances, predecessors := breadthfirstsearch.BfsfindingShortestRoute(g, "A", true)
-	fmt.Println("distances: ", distances)
-	fmt.Println("predecessors: ", predecessors)
+	// distances, predecessors := breadthfirstsearch.BfsfindingShortestRoute(g, "A", true)
+	// fmt.Println("distances: ", distances)
+	// fmt.Println("predecessors: ", predecessors)
+
+	depthfirstsearch.Depthfirstsearch[string](g, "A", func(v string) { fmt.Println("Visited vertex: ", v) })
 }
