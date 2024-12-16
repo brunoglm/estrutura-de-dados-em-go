@@ -1,6 +1,8 @@
 package floydwarshall
 
-const INF = 9223372036854775807
+import "math"
+
+const INF = math.MaxInt32
 
 func FloydWarshall(graph [][]int) [][]int {
 	size := len(graph)
@@ -9,9 +11,7 @@ func FloydWarshall(graph [][]int) [][]int {
 	for i := 0; i < size; i++ {
 		dist[i] = make([]int, size)
 		for j := 0; j < size; j++ {
-			if i == j {
-				dist[i][j] = 0
-			} else if !isFinite(graph[i][j]) {
+			if graph[i][j] == 0 && i != j {
 				dist[i][j] = INF
 			} else {
 				dist[i][j] = graph[i][j]
@@ -19,9 +19,15 @@ func FloydWarshall(graph [][]int) [][]int {
 		}
 	}
 
-	return dist
-}
+	for k := 0; k < size; k++ {
+		for i := 0; i < size; i++ {
+			for j := 0; j < size; j++ {
+				if dist[i][k] != INF && dist[k][j] != INF && (dist[i][k]+dist[k][j] < dist[i][j]) {
+					dist[i][j] = dist[i][k] + dist[k][j]
+				}
+			}
+		}
+	}
 
-func isFinite(i int) bool {
-	return i != 0
+	return dist
 }
