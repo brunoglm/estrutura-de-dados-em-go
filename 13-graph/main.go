@@ -2,8 +2,7 @@ package main
 
 import (
 	"fmt"
-	"labgraph/depthfirstsearch"
-	"labgraph/graph"
+	"labgraph/dijkstra"
 )
 
 func main() {
@@ -32,26 +31,38 @@ func main() {
 	// fmt.Println("distances: ", distances)
 	// fmt.Println("predecessors: ", predecessors)
 
-	g := graph.NewGraph[string](true)
+	// g := graph.NewGraph[string](true)
 
-	myVertices := []string{"A", "B", "C", "D", "E", "F"}
+	// myVertices := []string{"A", "B", "C", "D", "E", "F"}
 
-	for _, v := range myVertices {
-		g.AddVertex(v)
+	// for _, v := range myVertices {
+	// 	g.AddVertex(v)
+	// }
+
+	// g.AddEdge("A", "C")
+	// g.AddEdge("A", "D")
+	// g.AddEdge("B", "D")
+	// g.AddEdge("B", "E")
+	// g.AddEdge("C", "F")
+	// g.AddEdge("F", "E")
+
+	// discovery, finished, predecessors := depthfirstsearch.DfsInstantDiscoveryExploration(g)
+	// fmt.Println("discovery: ", discovery)
+	// fmt.Println("finished: ", finished)
+	// fmt.Println("predecessors: ", predecessors)
+
+	// result := depthfirstsearch.DfsTopoSort(myVertices, finished)
+	// fmt.Println(result)
+
+	graph := [][]int{
+		{0, 2, 4, 0, 0, 0},
+		{0, 0, 1, 4, 2, 0},
+		{0, 0, 0, 0, 3, 0},
+		{0, 0, 0, 0, 0, 2},
+		{0, 0, 0, 3, 0, 2},
+		{0, 0, 0, 0, 0, 0},
 	}
 
-	g.AddEdge("A", "C")
-	g.AddEdge("A", "D")
-	g.AddEdge("B", "D")
-	g.AddEdge("B", "E")
-	g.AddEdge("C", "F")
-	g.AddEdge("F", "E")
-
-	discovery, finished, predecessors := depthfirstsearch.DfsInstantDiscoveryExploration(g)
-	fmt.Println("discovery: ", discovery)
-	fmt.Println("finished: ", finished)
-	fmt.Println("predecessors: ", predecessors)
-
-	result := depthfirstsearch.DfsTopoSort(myVertices, finished)
-	fmt.Println(result)
+	dist := dijkstra.Dijkstra(graph, 0)
+	fmt.Println("dist: ", dist)
 }
