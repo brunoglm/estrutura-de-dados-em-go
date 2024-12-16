@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"labgraph/floydwarshall"
+	"labgraph/prim"
 )
 
 func main() {
@@ -63,21 +63,34 @@ func main() {
 	// 	{0, 0, 0, 0, 0, 0},
 	// }
 
-	graph := [][]int{
-		{0, 2, 2, 0},
-		{0, 0, 0, 2},
-		{0, 0, 0, 4},
-		{0, 0, 0, 0},
-	}
+	// graph := [][]int{
+	// 	{0, 2, 2, 0},
+	// 	{0, 0, 0, 2},
+	// 	{0, 0, 0, 4},
+	// 	{0, 0, 0, 0},
+	// }
 
 	// dist := dijkstra.Dijkstra(graph, 0)
 	// fmt.Println("dist: ", dist)
 
-	distances := floydwarshall.FloydWarshall(graph)
-	for _, distance := range distances {
-		for _, d := range distance {
-			fmt.Printf("%v ", d)
-		}
-		fmt.Printf("\n")
+	// distances := floydwarshall.FloydWarshall(graph)
+	// for _, distance := range distances {
+	// 	for _, d := range distance {
+	// 		fmt.Printf("%v ", d)
+	// 	}
+	// 	fmt.Printf("\n")
+	// }
+
+	graph := [][]int{
+		{0, 2, 4, 0, 0, 0},
+		{2, 0, 2, 4, 2, 0},
+		{4, 2, 0, 0, 3, 0},
+		{0, 4, 0, 0, 3, 2},
+		{0, 2, 3, 3, 0, 2},
+		{0, 0, 0, 2, 2, 0},
 	}
+
+	parent, key := prim.Prim(graph)
+	fmt.Println("parent: ", parent)
+	fmt.Println("key: ", key)
 }
