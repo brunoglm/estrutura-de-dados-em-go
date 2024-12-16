@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"labgraph/dijkstra"
+	"labgraph/floydwarshall"
 )
 
 func main() {
@@ -70,6 +70,14 @@ func main() {
 		{0, 0, 0, 0},
 	}
 
-	dist := dijkstra.Dijkstra(graph, 0)
-	fmt.Println("dist: ", dist)
+	// dist := dijkstra.Dijkstra(graph, 0)
+	// fmt.Println("dist: ", dist)
+
+	distances := floydwarshall.FloydWarshall(graph)
+	for _, distance := range distances {
+		for _, d := range distance {
+			fmt.Printf("%v ", d)
+		}
+		fmt.Printf("\n")
+	}
 }
