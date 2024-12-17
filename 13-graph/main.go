@@ -96,6 +96,7 @@ func main() {
 	fmt.Println("key: ", key)
 	fmt.Println()
 
-	parent = kruskal.Kruskal(graph)
-	fmt.Println("parent: ", parent)
+	mst, totalWeight := kruskal.Kruskal(graph)
+	fmt.Println("mst: ", mst)
+	fmt.Println("totalWeight: ", totalWeight)
 }

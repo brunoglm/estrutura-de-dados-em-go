@@ -1,52 +1,77 @@
 package kruskal
 
-import "math"
+import (
+	"sort"
+)
 
-const INF = math.MaxInt32
+type Edge struct {
+	Source, Target, Weight int
+}
 
-func Kruskal(graph [][]int) []int {
+func adjacencyMatrixToEdgeList(graph [][]int) []Edge {
+	var edges []Edge
 	size := len(graph)
-	parent := make([]int, size)
-	ne := 0
-	var a, b, u, v int
-	cost := graph
 
-	for ne < size-1 {
-		min := INF
-		for i := 0; i < size; i++ {
-			for j := 0; j < size; j++ {
-				if cost[i][j] < min {
-					min = cost[i][j]
-					u = i
-					a = u
-					v = j
-					b = v
-				}
+	for i := 0; i < size; i++ {
+		for j := i + 1; j < size; j++ { // Considera apenas a metade superior (grafo não direcionado)
+			if graph[i][j] > 0 {
+				edges = append(edges, Edge{Source: i, Target: j, Weight: graph[i][j]})
 			}
 		}
-		u = find(u, parent)
-		v = find(v, parent)
-		if union(u, v, parent) {
-			ne++
+	}
+	return edges
+}
+
+// Kruskal encontra a Árvore Geradora Mínima (MST) de um grafo.
+func Kruskal(graph [][]int) ([]Edge, int) {
+	size := len(graph)
+	edges := adjacencyMatrixToEdgeList(graph)
+	// Ordena as arestas pelo peso
+	sort.Slice(edges, func(i, j int) bool {
+		return edges[i].Weight < edges[j].Weight
+	})
+
+	// Inicializa estruturas do Union-Find
+	parent := make([]int, size)
+	rank := make([]int, size)
+	for i := 0; i < size; i++ {
+		parent[i] = i
+	}
+
+	var mst []Edge
+	totalWeight := 0
+
+	for _, edge := range edges {
+		uRoot := find(edge.Source, parent)
+		vRoot := find(edge.Target, parent)
+
+		// Se não formar um ciclo, adiciona a aresta na MST
+		if uRoot != vRoot {
+			mst = append(mst, edge)
+			totalWeight += edge.Weight
+			union(uRoot, vRoot, parent, rank)
 		}
-		cost[b][a] = INF
-		cost[a][b] = cost[b][a]
 	}
 
-	return parent
+	return mst, totalWeight
 }
 
-func find(i int, parent []int) int {
-	for parent[i] > 0 {
-		i = parent[i]
+// Encontra o representante (root) de um nó com path compression
+func find(node int, parent []int) int {
+	if parent[node] != node {
+		parent[node] = find(parent[node], parent) // Path compression
 	}
-	return i
+	return parent[node]
 }
 
-func union(j, i int, parent []int) bool {
-	if i != j {
-		parent[j] = i
-		return true
+// Realiza a união de dois conjuntos com união por ranking
+func union(u, v int, parent, rank []int) {
+	if rank[u] < rank[v] {
+		parent[u] = v
+	} else if rank[u] > rank[v] {
+		parent[v] = u
+	} else {
+		parent[v] = u
+		rank[u]++
 	}
-	return false
 }
