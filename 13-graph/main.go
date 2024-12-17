@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"labgraph/kruskal"
 	"labgraph/prim"
 )
 
@@ -93,4 +94,8 @@ func main() {
 	parent, key := prim.Prim(graph)
 	fmt.Println("parent: ", parent)
 	fmt.Println("key: ", key)
+	fmt.Println()
+
+	parent = kruskal.Kruskal(graph)
+	fmt.Println("parent: ", parent)
 }
